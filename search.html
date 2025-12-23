@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Brand Size Finder</title>
+    <link rel="icon" type="image/png" href="icon/ma.png">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #FFFCF6
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        select,
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        select {
+            height: 200px;
+        }
+
+        button {
+            background: #791a32;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #e5556b;
+        }
+
+        .receipt {
+            background: #ffffff;
+            border: 2px dashed #333;
+            padding: 20px;
+            margin-top: 20px;
+            font-family: monospace;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .receipt.show {
+            display: block;
+        }
+
+        .receipt h3 {
+            margin-top: 0;
+        }
+
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .btn-square {
+            width: 36px !important;
+            height: 36px;
+            padding: 0;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+        }
+
+        .btn-find {
+            width: auto;
+            flex: 1;
+        }
+
+        .floating-icons {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .icon {
+            position: absolute;
+            opacity: 0.7;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.4;
+        }
+
+        .icon1 {
+            width: 150px;
+            height: 150px;
+            top: 65%;
+            left: 20%;
+            background-image: url('floating_images/floating_image1.png');
+            animation: floating 25s infinite linear;
+        }
+
+        .icon2 {
+            width: 180px;
+            height: 180px;
+            top: 29%;
+            left: 75%;
+            background-image: url('floating_images/floating_image2.png');
+            animation: floating 20s infinite linear;
+            animation-delay: -5s;
+        }
+
+        .icon3 {
+            width: 100px;
+            height: 100px;
+            left: 20%;
+            top: 25%;
+            transform: translate(-50%, -60%);
+            background-image: url('floating_images/floating_image3.png');
+            animation: floatUpDown 5s ease-in-out infinite;
+        }
+
+
+        .icon4 {
+            width: 200px;
+            height: 100px;
+            left: 50%;
+            top: 70%;
+            transform: translate(-50%, -50%);
+            background-image: url('floating_images/floating_image4.png');
+            animation: floatUpDown 4s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            25% {
+                transform: translate(10px, -15px) rotate(5deg);
+            }
+
+            50% {
+                transform: translate(-5px, -25px) rotate(-3deg);
+            }
+
+            75% {
+                transform: translate(-15px, -10px) rotate(3deg);
+            }
+
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+        }
+
+        @keyframes floatUpDown {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .floating-icons {
+            pointer-events: none;
+            z-index: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Find Your Clothing Letter Size</h2>
+
+    <div class="floating-icons">
+        <div class="icon icon1"></div>
+        <div class="icon icon2"></div>
+        <div class="icon icon3"></div>
+        <div class="icon icon4"></div>
+    </div>
+
+    <label for="brand-select">Choose brand(s):</label>
+    <select id="brand-select" multiple size="8">
+        <option value="" disabled>-- select one or more brands --</option>
+    </select>
+
+    <label for="bust-input">Enter bust measurement (in inches):</label>
+    <input type="number" id="bust-input" placeholder="e.g. 35" step="0.1" />
+
+    <div class="actions">
+        <button id="select-all-btn" class="btn-square" title="Select all brands">
+            All
+        </button>
+        <button id="search-btn" class="btn-find">Find my size</button>
+        <button id="reset-btn" class="btn-square" title="Reset">
+            Reset
+        </button>
+    </div>
+
+    <div id="receipt" class="receipt"></div>
+    <footer style="
+        margin-top: 60px;
+        text-align: center;
+        font-size: 14px;
+        color: #000000;
+        padding: 20px 0;
+    ">
+        Don't see your brand? Email me at
+        <a href="mailto:ananyabchetia@gmail.com" style="color:#791a32; font-weight:bold;">
+            ananyabchetia@gmail.com
+        </a>
+        and I'll add it to this list!
+        <p>
+            All images here are from
+            <a href="https://pngtree.com/freepng/magnifying-glass-for-commercial-elements_4095332.html"
+                style="color:#791a32; font-weight:bold;">
+                pngtree.com
+            </a>
+        </p>
+
+    </footer>
+
+
+    <script>
+        // Embedded JSON data
+        let sizeData = [];
+
+        // Populate brand dropdown
+        function populateBrands(data) {
+            const brands = [...new Set(data.map((d) => d.Brands))];
+            const select = document.getElementById("brand-select");
+
+            brands.sort().forEach((brand) => {
+                const option = document.createElement("option");
+                option.value = brand;
+                option.textContent = brand;
+                select.appendChild(option);
+            });
+        }
+
+        // Build bust ranges for each brand
+        function computeRangesForBrand(brand) {
+            const entries = sizeData
+                .filter((d) => d.Brands === brand)
+                .sort((a, b) => Number(a.Bust) - Number(b.Bust));
+
+            const ranges = [];
+
+            for (let i = 0; i < entries.length; i++) {
+                const current = entries[i];
+                const next = entries[i + 1];
+
+                let min, max;
+
+                if (i === 0) {
+                    min = 0;
+                } else {
+                    const prev = entries[i - 1];
+                    min = (Number(prev.Bust) + Number(current.Bust)) / 2;
+                }
+
+                if (!next) {
+                    max = 100;
+                } else {
+                    max = (Number(current.Bust) + Number(next.Bust)) / 2;
+                }
+
+                ranges.push({
+                    size: current.Letter_sizing,
+                    min: min,
+                    max: max,
+                });
+            }
+
+            return ranges;
+        }
+        document
+            .getElementById("search-btn")
+            .addEventListener("click", () => {
+                const select = document.getElementById("brand-select");
+                const selectedBrands = Array.from(select.selectedOptions)
+                    .map((o) => o.value)
+                    .filter(Boolean);
+                const bust = parseFloat(
+                    document.getElementById("bust-input").value
+                );
+
+                if (selectedBrands.length === 0 || isNaN(bust)) {
+                    alert(
+                        "Please select at least one brand and enter a valid bust measurement."
+                    );
+                    return;
+                }
+
+                const results = selectedBrands.map((brand) => {
+                    const ranges = computeRangesForBrand(brand);
+                    const match = ranges.find(
+                        (r) => bust >= r.min && bust < r.max
+                    );
+                    return { brand, match };
+                });
+
+                generateReceiptMulti(bust, results);
+            });
+
+        // Select all brands button
+        document
+            .getElementById("select-all-btn")
+            .addEventListener("click", () => {
+                const select = document.getElementById("brand-select");
+                Array.from(select.options).forEach((opt) => {
+                    if (!opt.disabled) opt.selected = true;
+                });
+            });
+
+        document
+            .getElementById("reset-btn")
+            .addEventListener("click", () => {
+                const select = document.getElementById("brand-select");
+                Array.from(select.options).forEach(
+                    (opt) => (opt.selected = false)
+                );
+                document.getElementById("bust-input").value = "";
+                const receipt = document.getElementById("receipt");
+                receipt.classList.remove("show");
+                receipt.innerHTML = "";
+            });
+
+        function generateReceiptMulti(bust, results) {
+            const receipt = document.getElementById("receipt");
+            receipt.classList.add("show");
+
+            const rows = results
+                .map((r) => {
+                    if (!r.match) {
+                        return `<li><strong>${r.brand}:</strong> No matching size</li>`;
+                    }
+                    return `<li><strong>${r.brand}:</strong> <span style="font-size: 1.2em; color: #007bff;">${r.match.size}</span></li>`;
+                })
+                .join("");
+
+            receipt.innerHTML = `
+                    <h3>Your Sizes By Brand</h3>
+                    <p><strong>Bust:</strong> ${bust}"</p>
+                    <p><strong>Results:</strong></p>
+                    <ul>${rows}</ul>
+                `;
+        }
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            try {
+                const res = await fetch("bust.json");
+                const data = await res.json();
+                sizeData = data;
+                populateBrands(sizeData);
+            } catch (err) {
+                console.error("Failed to load bust.json", err);
+                alert(
+                    "Failed to load size data. Please open this file via a local web server (not file://)."
+                );
+            }
+        });
+    </script>
+</body>
+
+</html>
