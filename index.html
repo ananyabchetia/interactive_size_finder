@@ -3,56 +3,70 @@
 
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Brand Size Finder</title>
     <link rel="icon" type="image/png" href="icon/ma.png">
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
             max-width: 500px;
-            margin: 50px auto;
+            margin: 0 auto;
             padding: 20px;
-            background: #FFFCF6
+            background: #FFFCF6;
+            position: relative;
         }
 
         h2 {
             color: #333;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
         }
 
         label {
             display: block;
             margin-top: 15px;
             font-weight: bold;
+            font-size: 0.95rem;
         }
 
         select,
         input {
             width: 100%;
-            padding: 8px;
+            padding: 12px;
             margin-top: 5px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            box-sizing: border-box;
+            font-size: 16px;
         }
 
         select {
-            height: 200px;
+            height: 180px;
         }
 
         button {
             background: #791a32;
             color: white;
-            padding: 10px 20px;
+            padding: 12px 20px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             margin-top: 15px;
             width: 100%;
             font-size: 16px;
+            touch-action: manipulation;
         }
 
         button:hover {
             background: #e5556b;
+        }
+
+        button:active {
+            transform: scale(0.98);
         }
 
         .receipt {
@@ -63,6 +77,7 @@
             font-family: monospace;
             border-radius: 8px;
             display: none;
+            word-wrap: break-word;
         }
 
         .receipt.show {
@@ -71,8 +86,17 @@
 
         .receipt h3 {
             margin-top: 0;
+            font-size: 1.2rem;
         }
 
+        .receipt ul {
+            padding-left: 20px;
+        }
+
+        .receipt li {
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
 
         .actions {
             display: flex;
@@ -81,13 +105,14 @@
         }
 
         .btn-square {
-            width: 36px !important;
-            height: 36px;
+            width: 60px !important;
+            height: 44px;
             padding: 0;
             display: inline-flex;
             justify-content: center;
             align-items: center;
-            font-size: 12px;
+            font-size: 14px;
+            flex-shrink: 0;
         }
 
         .btn-find {
@@ -96,18 +121,18 @@
         }
 
         .floating-icons {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             overflow: hidden;
-            z-index: 1;
+            z-index: 0;
+            pointer-events: none;
         }
 
         .icon {
             position: absolute;
-            opacity: 0.7;
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
@@ -115,40 +140,38 @@
         }
 
         .icon1 {
-            width: 150px;
-            height: 150px;
-            top: 65%;
-            left: 20%;
+            width: 100px;
+            height: 100px;
+            top: 60%;
+            left: 10%;
             background-image: url('floating_images/floating_image1.png');
             animation: floating 25s infinite linear;
         }
 
         .icon2 {
-            width: 180px;
-            height: 180px;
-            top: 29%;
-            left: 75%;
+            width: 120px;
+            height: 120px;
+            top: 25%;
+            left: 70%;
             background-image: url('floating_images/floating_image2.png');
             animation: floating 20s infinite linear;
             animation-delay: -5s;
         }
 
         .icon3 {
-            width: 100px;
-            height: 100px;
-            left: 20%;
-            top: 25%;
-            transform: translate(-50%, -60%);
+            width: 70px;
+            height: 70px;
+            left: 15%;
+            top: 20%;
             background-image: url('floating_images/floating_image3.png');
             animation: floatUpDown 5s ease-in-out infinite;
         }
 
-
         .icon4 {
-            width: 200px;
-            height: 100px;
+            width: 140px;
+            height: 70px;
             left: 50%;
-            top: 70%;
+            top: 75%;
             transform: translate(-50%, -50%);
             background-image: url('floating_images/floating_image4.png');
             animation: floatUpDown 4s ease-in-out infinite;
@@ -188,9 +211,88 @@
             }
         }
 
-        .floating-icons {
-            pointer-events: none;
-            z-index: 0;
+        footer {
+            margin-top: 60px;
+            text-align: center;
+            font-size: 14px;
+            color: #000000;
+            padding: 20px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        footer a {
+            color: #791a32;
+            font-weight: bold;
+            word-break: break-word;
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+
+            select {
+                height: 150px;
+            }
+
+            .btn-square {
+                width: 50px !important;
+                font-size: 12px;
+            }
+
+            .icon1,
+            .icon2 {
+                width: 80px;
+                height: 80px;
+            }
+
+            .icon3 {
+                width: 50px;
+                height: 50px;
+            }
+
+            .icon4 {
+                width: 100px;
+                height: 50px;
+            }
+
+            footer {
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            body {
+                padding: 10px;
+            }
+
+            h2 {
+                font-size: 1.2rem;
+            }
+
+            select {
+                height: 130px;
+            }
+
+            .actions {
+                gap: 6px;
+            }
+
+            .btn-square {
+                width: 45px !important;
+                font-size: 11px;
+            }
+
+            footer {
+                font-size: 12px;
+                margin-top: 40px;
+            }
         }
     </style>
 </head>
@@ -225,26 +327,19 @@
     </div>
 
     <div id="receipt" class="receipt"></div>
-    <footer style="
-        margin-top: 60px;
-        text-align: center;
-        font-size: 14px;
-        color: #000000;
-        padding: 20px 0;
-    ">
+
+    <footer>
         Don't see your brand? Email me at
-        <a href="mailto:ananyabchetia@gmail.com" style="color:#791a32; font-weight:bold;">
+        <a href="mailto:ananyabchetia@gmail.com">
             ananyabchetia@gmail.com
         </a>
         and I'll add it to this list!
         <p>
             All images here are from
-            <a href="https://pngtree.com/freepng/magnifying-glass-for-commercial-elements_4095332.html"
-                style="color:#791a32; font-weight:bold;">
+            <a href="https://pngtree.com/freepng/magnifying-glass-for-commercial-elements_4095332.html">
                 pngtree.com
             </a>
         </p>
-
     </footer>
 
 
@@ -301,6 +396,7 @@
 
             return ranges;
         }
+
         document
             .getElementById("search-btn")
             .addEventListener("click", () => {
